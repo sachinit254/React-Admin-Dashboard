@@ -6,7 +6,7 @@ import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const DataTable = ({columns}) => {
+const DataTable = ({ columns }) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
   const [list, setList] = useState([]);
@@ -14,7 +14,6 @@ const DataTable = ({columns}) => {
   useEffect(() => {
     setList(data);
   }, [data]);
-
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/${path}/${id}`);
@@ -46,8 +45,8 @@ const DataTable = ({columns}) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
-        <Link to="/users/new" className="link">
+        {path.charAt(0).toUpperCase() + path.slice(1)}
+        <Link to={`/${path}/new`} className="link">
           Add New
         </Link>
       </div>

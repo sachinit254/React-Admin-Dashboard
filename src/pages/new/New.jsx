@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import axios from "axios";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
@@ -16,7 +17,23 @@ const New = ({ inputs, title }) => {
     e.preventDefault();
     const data = new FormData();
     data.append("file", file);
+    data.append("upload_preset", "upload");
+    try {
+      const uploadRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dbckqtgmv/image/upload",
+        data
+      );
+      const { url } = uploadRes.data;
+      const newUser = {
+        ...info,
+        img: url,
+      };
+      await axios.post("/auth/register", newUser);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  console.log("info", info);
   return (
     <div className="new">
       <Sidebar />
@@ -56,6 +73,7 @@ const New = ({ inputs, title }) => {
                     onChange={handleChange}
                     type={input.type}
                     placeholder={input.placeholder}
+                    id={input.id}
                   />
                 </div>
               ))}

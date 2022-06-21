@@ -32,7 +32,7 @@ export const userInputs = [
     id: "city",
     label: "City",
     type: "text",
-    placeholder: "USA",
+    placeholder: "New York",
   },
 ];
 
